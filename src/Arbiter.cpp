@@ -47,7 +47,7 @@ void Arbiter::stop_robot() {
 }
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "bh_arbiter");
+    ros::init(argc, argv, "fp_bh_arbiter");
     ros::NodeHandle nh;
     ROS_INFO("Arbiter node started...");
     ros::Rate loop_rate(BH_ARBITER_RATE);
