@@ -9,11 +9,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  gazebo_ros
   cv_bridge
   image_transport
   roscpp
   sensor_msgs
   std_msgs
+  message_generation
 )
 
 find_package(gazebo REQUIRED)
@@ -111,6 +113,7 @@ catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES final_project
   CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs
+  CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 
@@ -151,8 +154,8 @@ add_executable(fp_bh_drive src/Behavior_Drive.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(fp_bh_arbiter control_generate_messages_cpp)
-add_dependencies(fp_bh_drive control_generate_messages_cpp)
+add_dependencies(fp_bh_arbiter final_project_generate_messages_cpp)
+add_dependencies(fp_bh_drive final_project_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}

@@ -5,7 +5,7 @@ Behavior_Follow::Behavior_Follow(){
 	center_min = 1.5f;
 	center_max = 3.0f
 	// publisher
-	pub_arbiter = nh.advertise<control::behavior>("behavior/follow", 1);
+	pub_arbiter = nh.advertise<final_project::behavior>("behavior/follow", 1);
 	// subscribe
 	center_hokuyo_laser = nh.subscribe("left_side_scan", 1, &Behavior_Drive::center_scan_callback, this);
 	
@@ -18,7 +18,7 @@ void Behavior_Drive::center_scan_callback(const sensor_msgs::LaserScan::ConstPtr
 }
 
 void Behavior_Drive::process_behavior(){
-	control::behavior msg_move;
+	final_project::behavior msg_move;
 	msg_move.vel_fw = 0;
 	msg_move.vel_turn = 0;
 	msg_move.active = false;

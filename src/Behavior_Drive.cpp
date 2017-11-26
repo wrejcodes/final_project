@@ -9,7 +9,7 @@ Behavior_Drive::Behavior_Drive(){
 	right_mid = 2.0f;
 	right_back = 2.0f;
 	// publisher
-	pub_arbiter = nh.advertise<control::behavior>("behavior/drive", 1);
+	pub_arbiter = nh.advertise<final_project::behavior>("behavior/drive", 1);
 	// subscribe
 	left_side_laser = nh.subscribe("left_side_scan", 1, &Behavior_Drive::left_side_laser_callback, this);
 	right_side_laser = nh.subscribe("right_side_scan", 1, &Behavior_Drive::right_side_laser_callback, this);
@@ -28,7 +28,7 @@ void Behavior_Drive::right_side_laser_callback(const sensor_msgs::LaserScan::Con
 	right_front = msg->ranges[0];
 }
 void Behavior_Drive::process_behavior(){
-	control::behavior msg_move;
+	final_project::behavior msg_move;
 	msg_move.vel_fw = 0;
 	msg_move.vel_turn = 0;
 	msg_move.active = false;
