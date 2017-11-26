@@ -9,7 +9,7 @@ Arbiter::Arbiter() {
 
 void Arbiter::process_behaviors() {
     if (!this->behavior_queue.empty()) {
-        control::behavior priority_msg = this->behavior_queue.top().second;
+        final_project::behavior priority_msg = this->behavior_queue.top().second;
         move_robot(priority_msg);
         while(this->behavior_queue.size() > 0) {
             //C++ Priority Queue has no clear function,
@@ -23,16 +23,16 @@ void Arbiter::process_behaviors() {
 }
 
 
-void Arbiter::cb_bh_drive(const control::behavior::ConstPtr &msg) {
+void Arbiter::cb_bh_drive(const final_project::behavior::ConstPtr &msg) {
     if (msg->active) {
-        this->behavior_queue.push(std::pair<int, control::behavior>(PRIORITY_DRIVE, *msg));
+        this->behavior_queue.push(std::pair<int, final_project::behavior>(PRIORITY_DRIVE, *msg));
     }
     ROS_DEBUG("Arbiter: Drive(%s) Fw: %.1f Turn: %.1f", msg->active ? "on" : "off", msg->vel_fw, msg->vel_turn);
 }
 
 
 
-void Arbiter::move_robot(control::behavior& msg) {
+void Arbiter::move_robot(final_project::behavior& msg) {
     geometry_msgs::Twist msg_move;
     msg_move.linear.x = msg.vel_fw;
     msg_move.angular.z = msg.vel_turn;

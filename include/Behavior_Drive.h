@@ -2,7 +2,7 @@
 #define BEHAVIOR_DRIVE_H
 
 #include "ros/ros.h"
-#include "control/behavior.h"
+#include "final_project/behavior.h"
 #include "sensor_msgs/LaserScan.h"
 
 #define BH_DRIVE_RATE 70
@@ -11,9 +11,9 @@
 class Behavior_Drive{
 public:
 	static constexpr double DRIVE_SPEED = .25f;
-	static constexpr double DRIVE_TURN = .15f;
-	static constexpr double MID_LASER_THRESHOLD = .9f;
-	static constexpr double DELTA_THRESHOLD = .15f;
+	static constexpr double DRIVE_TURN = .25f;
+	static constexpr double MID_LASER_THRESHOLD = 1.0f;
+	static constexpr double DELTA_THRESHOLD = .3f;
 
 	Behavior_Drive();
 

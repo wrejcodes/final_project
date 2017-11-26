@@ -12,10 +12,10 @@
 
 
   <!-- TODO: Change spawn location -->
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-file $(find final_project)/models/irobot/model_full.sdf -sdf -model iRobot -x 1 -y 1 -z 1" ns="$(arg base_name)$(arg id)"/>
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-file $(find final_project)/models/irobot/model_full.sdf -sdf -model iRobot -x 2.0 -y 1.5 -z 1 -Y -1.9" ns="$(arg base_name)$(arg id)"/>
   
-  <node ns="$(arg base_name)$(arg id)" name="irobotArbiter" pkg="control" type="fp_bh_arbiter" respawn="false" output="screen">
+  <node ns="$(arg base_name)$(arg id)" name="irobotArbiter" pkg="final_project" type="fp_bh_arbiter" respawn="false" output="screen">
   </node>
-  <node ns="$(arg base_name)$(arg id)" name="irobotDrive" pkg="control" type="fp_bh_drive" respawn="false" output="screen">
+  <node ns="$(arg base_name)$(arg id)" name="irobotDrive" pkg="final_project" type="fp_bh_drive" respawn="false" output="screen">
   </node> 
 </launch>

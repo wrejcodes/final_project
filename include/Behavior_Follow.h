@@ -2,7 +2,7 @@
 #define BEHAVIOR_FOLLOW_H
 
 #include "ros/ros.h"
-#include "control/behavior.h"
+#include "final_project/behavior.h"
 #include "sensor_msgs/LaserScan.h"
 
 #define BH_DRIVE_RATE 70
