@@ -5,7 +5,7 @@
 #include "final_project/behavior.h"
 #include "sensor_msgs/LaserScan.h"
 
-#define BH_FOLLOW_RATE 70
+#define BH_FOLLOW_RATE 70.00f
 
 class Behavior_Follow{
 public:
@@ -26,15 +26,19 @@ public:
 	double F_P_GAIN = 1;
 	double F_I_GAIN = 1;
 	double F_D_GAIN = 1;
-	double T_P_GAIN = 1;
-	double T_I_GAIN = 1;
-	double T_D_GAIN = 1;
+	double TR_P_GAIN = 1;
+	double TR_I_GAIN = 1;
+	double TR_D_GAIN = 1;
+	double TL_P_GAIN = 1;
+	double TL_I_GAIN = 1;
+	double TL_D_GAIN = 1;
 
 	//Don't start detecting until
 	static constexpr double TRIGGER_FOLLOW_DISTANCE = 4.00f;
 
 	Behavior_Follow();
 
+	//Functions to make it go
 	void hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& msg);
 	void process_behavior();
 	
@@ -42,7 +46,7 @@ private:
 	//Handle, Publisher, Subscriber
 	ros::NodeHandle nh;
 	ros::Publisher pub_arbiter;
-	ros::Subscriber hokuyo_scan;
+	ros::Subscriber hokuyo_laser;
 	
 	//Average distances
 	double hokuyo_right_avg;
@@ -55,12 +59,17 @@ private:
 	double f_last_error;
 	double f_error;
 	
-	//TURN PID CONTROL VARIABLES
-	double t_pid;
-	double t_sum;
-	double t_last_error;
-	double t_error;
+	//TURN RIGHT PID CONTROL VARIABLES
+	double tr_pid;
+	double tr_sum;
+	double tr_last_error;
+	double tr_error;
 	
+	//TURN LEFT PID CONTROL VARIABLES
+	double tl_pid;
+	double tl_sum;
+	double tl_last_error;
+	double tl_error;
 };
 
 #endif

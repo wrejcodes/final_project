@@ -144,6 +144,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/final_project_node.cpp)
 add_executable(fp_bh_arbiter src/Arbiter.cpp)
 add_executable(fp_bh_drive src/Behavior_Drive.cpp)
+add_executable(fp_bh_follow src/Behavior_Follow.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -156,12 +157,16 @@ add_executable(fp_bh_drive src/Behavior_Drive.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(fp_bh_arbiter final_project_generate_messages_cpp)
 add_dependencies(fp_bh_drive final_project_generate_messages_cpp)
+add_dependencies(fp_bh_follow final_project_generate_messages_cpp)
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(fp_bh_arbiter   ${catkin_LIBRARIES})
 target_link_libraries(fp_bh_drive      ${catkin_LIBRARIES})
+target_link_libraries(fp_bh_follow      ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############

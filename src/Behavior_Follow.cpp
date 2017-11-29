@@ -13,21 +13,27 @@ Behavior_Follow::Behavior_Follow(){
 	f_last_error = 0;
 	f_error = 0;
 	
-	//TURN PID CONTROL VARIABLES
-	t_pid = 0;
-	t_sum = 0;
-	t_last_error = 0;
-	t_error = 0;
+	//TURN RIGHT PID CONTROL VARIABLES
+	tr_pid = 0;
+	tr_sum = 0;
+	tr_last_error = 0;
+	tr_error = 0;
+
+	//TURN LEFT PID CONTROL VARIABLES
+	tl_pid = 0;
+	tl_sum = 0;
+	tl_last_error = 0;
+	tl_error = 0;
 
 	// publisher
 	pub_arbiter = nh.advertise<final_project::behavior>("behavior/follow", 1);
 	
 	// subscribe
-	hokuyo_laser = nh.subscribe("hokuyo_scan", 1, &Behavior_Follow::hokuyo_center_callback, this);
+	hokuyo_laser = nh.subscribe("hokuyo_scan", 1, &Behavior_Follow::hokuyo_callback, this);
 }
 
 //hokuyo_callback
-void Behavior_Drive::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& msg){
+void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& msg){
 	int start = 180 + FOLLOW_RANGE_SIZE/2;
 	int end = 180 - FOLLOW_RANGE_SIZE/2;
 	int offset = FOLLOW_RANGE_SIZE/3;
@@ -59,20 +65,32 @@ void Behavior_Drive::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& msg
 	//forward pid
 	f_error = DESIRED_FOLLOW_DISTANCE - hokuyo_center_avg;
 	f_sum += f_error; 
-	f_pid = (F_P_GAIN * f_error) + (F_I_GAIN * ((1/loop_rate)*f_sum)) + (F_D_GAIN * ((f_error - f_last_error)/(1/loop_rate)))
+	f_pid = (F_P_GAIN * f_error) + (F_I_GAIN * ((1/BH_FOLLOW_RATE)*f_sum)) + (F_D_GAIN * ((f_error - f_last_error)/(1/BH_FOLLOW_RATE)));
 	f_last_error = f_error;
 
-	//turn pid	
+	//turn right pid
+	tr_error = DESIRED_FOLLOW_DISTANCE - hokuyo_right_avg;
+	tr_sum += tr_error; 
+	tr_pid = (TR_P_GAIN * tr_error) + (TR_I_GAIN * ((1/BH_FOLLOW_RATE)*tr_sum)) + (TR_D_GAIN * ((tr_error - tr_last_error)/(1/BH_FOLLOW_RATE)));
+	tr_last_error = tr_error;
 
+	//turn left pid
+	tl_error = DESIRED_FOLLOW_DISTANCE - hokuyo_left_avg;
+	tl_sum += tl_error; 
+	tl_pid = (TL_P_GAIN * tl_error) + (TL_I_GAIN * ((1/BH_FOLLOW_RATE)*tl_sum)) + (TL_D_GAIN * ((tl_error - tl_last_error)/(1/BH_FOLLOW_RATE)));
+	tl_last_error = tl_error;
 
+	//if no longer following reset all values.
 	if(hokuyo_center_avg > DESIRED_FOLLOW_DISTANCE){
 		f_error = 0;
 		f_last_error = 0;
 		f_sum = 0;
-		
-		t_error = 0;
-		t_last_error = 0;
-		t_sum = 0;
+		tr_error = 0;
+		tr_last_error = 0;
+		tr_sum = 0;
+		tl_error = 0;
+		tl_last_error = 0;
+		tl_sum = 0;
 	}
 }
 
@@ -83,7 +101,7 @@ void Behavior_Follow::process_behavior(){
 	msg_move.active = false;
 	
 	//Trigger to begin follow forward
-	if(TRIGGER_FOLLOW_DISTANCE > hokuyo_center_avg_range){
+	if(TRIGGER_FOLLOW_DISTANCE > hokuyo_center_avg){
 		msg_move.vel_fw = f_pid;
 		msg_move.vel_turn = 0;
 		msg_move.active = true;
@@ -91,14 +109,14 @@ void Behavior_Follow::process_behavior(){
 		//Trigger to turn left
 		if(hokuyo_right_avg > hokuyo_left_avg){
 			msg_move.vel_fw = f_pid;
-			msg_move.vel_turn = t_pid;
+			msg_move.vel_turn = tl_pid;
 			msg_move.active = true;
 		}
 
 		//Trigger to turn right
 		if(hokuyo_left_avg > hokuyo_right_avg){
-			msg_move_vel_fw = f_pid;
-			msg_move.vel_turn = -t_pid;
+			msg_move.vel_fw = f_pid;
+			msg_move.vel_turn = -tr_pid;
 			msg_move.active = true;
 		}
 	}	

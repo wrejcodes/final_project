@@ -10,6 +10,7 @@
 #include "geometry_msgs/Twist.h"
 
 #define PRIORITY_DRIVE 0
+#define PRIORITY_FOLLOW 1
 
 
 //comparison function for priority queue
@@ -37,13 +38,16 @@ class Arbiter {
 
     //Subscribers to behaviors, one callback for every behavior that is added
     ros::Subscriber sub_bh_drive;
+    ros::Subscriber sub_bh_follow;
     
     //Publisher to cmd_vel to move the robot
     ros::Publisher pub_vel;
 
     //Behavior Callbacks
     void cb_bh_drive(const final_project::behavior::ConstPtr& msg);
-   
+    void cb_bh_follow(const final_project::behavior::ConstPtr& msg);
+
+
     //Robot movement
     void move_robot(final_project::behavior& msg);
     void stop_robot();

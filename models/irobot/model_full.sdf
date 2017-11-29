@@ -120,7 +120,7 @@
 
       <!-->hokuyo collision<-->
       <collision name='base_link_collision_hokuyo_laser_link'>
-        <pose>0 0 0.06 0 -0 0</pose>
+        <pose>0 0 0.17 0 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04</length>
@@ -137,7 +137,7 @@
         </surface>
       </collision>
       <visual name='base_link_visual_hokuyo_laser_link'>
-        <pose>0 0 0.06 0 -0 0</pose>
+        <pose>0 0 0.17 0 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04</length>
@@ -173,7 +173,7 @@
           <topicName>hokuyo_scan</topicName>
           <frameName>hokuyo_laser_link</frameName>
         </plugin>
-        <pose>0 0 0.06 0 -0 0</pose>
+        <pose>0 0 0.17 0 -0 0</pose>
       </sensor>
 
       <sensor name='left_front_sensor' type='ray'>
