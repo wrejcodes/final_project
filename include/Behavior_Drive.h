@@ -11,9 +11,11 @@
 class Behavior_Drive{
 public:
 	static constexpr double DRIVE_SPEED = .25f;
-	static constexpr double DRIVE_TURN = .25f;
-	static constexpr double MID_LASER_THRESHOLD = 1.0f;
-	static constexpr double DELTA_THRESHOLD = .3f;
+	static constexpr double DRIVE_TURN2 = .25f;
+	static constexpr double DRIVE_TURN = .15f;
+	static constexpr double MID_LASER_THRESHOLD = 0.30f;
+	static constexpr double DELTA_THRESHOLD = .05f;
+
 
 	Behavior_Drive();
 

@@ -24,7 +24,7 @@ void Behavior_Drive::left_side_laser_callback(const sensor_msgs::LaserScan::Cons
 
 void Behavior_Drive::right_side_laser_callback(const sensor_msgs::LaserScan::ConstPtr& msg){
 	right_back = msg->ranges[2];
-	right_mid = msg->ranges[1];
+	right_mid = (msg->ranges[0] + msg->ranges[1] + msg->ranges[2])/3 ;
 	right_front = msg->ranges[0];
 }
 void Behavior_Drive::process_behavior(){
@@ -32,8 +32,24 @@ void Behavior_Drive::process_behavior(){
 	msg_move.vel_fw = 0;
 	msg_move.vel_turn = 0;
 	msg_move.active = false;
-	
-	if(right_mid <= MID_LASER_THRESHOLD){
+	if(right_mid > MID_LASER_THRESHOLD){
+		if(right_front > MID_LASER_THRESHOLD + 0.05f){
+			msg_move.vel_turn = -DRIVE_TURN2;
+			msg_move.vel_fw = DRIVE_SPEED;
+			msg_move.active = true;
+		}
+		else if(right_back > MID_LASER_THRESHOLD + 0.05f){
+			msg_move.vel_turn = DRIVE_TURN;
+			msg_move.vel_fw = DRIVE_SPEED;
+			msg_move.active = true;
+		}
+		else{
+			msg_move.vel_turn = -DRIVE_TURN;
+			msg_move.vel_fw = DRIVE_SPEED;
+			msg_move.active = true;
+		}
+	}
+	else if(right_mid <= MID_LASER_THRESHOLD){
 		// follow right
 		if(right_front > right_back + DELTA_THRESHOLD){
 			msg_move.vel_turn = -DRIVE_TURN;
@@ -42,7 +58,9 @@ void Behavior_Drive::process_behavior(){
 		}
 		msg_move.vel_fw = DRIVE_SPEED;
 		msg_move.active = true;
-	} else if(left_mid <= MID_LASER_THRESHOLD){
+	}	
+
+	/*else if(left_mid <= MID_LASER_THRESHOLD){
 		// follow left
 		if(left_front > left_back + DELTA_THRESHOLD){
 			msg_move.vel_turn = DRIVE_TURN;
@@ -51,7 +69,7 @@ void Behavior_Drive::process_behavior(){
 		}
 		msg_move.vel_fw = DRIVE_SPEED;
 		msg_move.active = true;
-	}
+	}*/
 	
 	pub_arbiter.publish(msg_move);
 
