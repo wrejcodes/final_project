@@ -148,6 +148,8 @@ add_executable(fp_bh_drive src/Behavior_Drive.cpp)
 add_executable(fp_bh_follow src/Behavior_Follow.cpp)
 add_executable(fp_bh_peek src/Behavior_Peek.cpp)
 add_executable(fp_bh_turn src/Behavior_Turn.cpp)
+add_executable(fp_bh_pass src/Behavior_Pass.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -162,6 +164,8 @@ add_dependencies(fp_bh_drive final_project_generate_messages_cpp)
 add_dependencies(fp_bh_follow final_project_generate_messages_cpp)
 add_dependencies(fp_bh_peek final_project_generate_messages_cpp)
 add_dependencies(fp_bh_turn final_project_generate_messages_cpp)
+add_dependencies(fp_bh_pass final_project_generate_messages_cpp)
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
@@ -171,6 +175,7 @@ target_link_libraries(fp_bh_drive      ${catkin_LIBRARIES})
 target_link_libraries(fp_bh_follow      ${catkin_LIBRARIES})
 target_link_libraries(fp_bh_peek        ${catkin_LIBRARIES})
 target_link_libraries(fp_bh_turn        ${catkin_LIBRARIES})
+target_link_libraries(fp_bh_pass        ${catkin_LIBRARIES})
 
 #############
 ## Install ##
