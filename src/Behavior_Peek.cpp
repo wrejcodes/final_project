@@ -58,7 +58,7 @@ void Behavior_Peek::process_behavior(){
 			// merge into the right lane
 			msg_move.vel_turn = -VEL_MERGE;
 			pub_arbiter.publish(msg_move);
-		} else {
+		} else if(count <= STABILIZE_MERGE_RIGHT && count > 0){
 			// stabilize the right merge
 			msg_move.vel_turn = VEL_MERGE;
 			pub_arbiter.publish(msg_move);
