@@ -27,6 +27,7 @@ Behavior_Follow::Behavior_Follow(){
 
 	// publisher
 	pub_arbiter = nh.advertise<final_project::behavior>("behavior/follow", 1);
+	pub_peek = nh.advertise<final_project::trigger>("trigger/follow", 1);
 	
 	// subscribe
 	hokuyo_laser = nh.subscribe("/iRobot/hokuyo_scan", 1, &Behavior_Follow::hokuyo_callback, this);
@@ -127,8 +128,14 @@ void Behavior_Follow::process_behavior(){
 		// 	msg_move.vel_turn = -tr_pid;
 		// 	msg_move.active = true;
 		// }
-	}	
+	}
 
+	// TODO: when this is working use this message to tell the robot to peek
+	//=====================================//
+		// final_project::trigger trigger;
+		// trigger.active = true;
+	//====================================//
+	
 	pub_arbiter.publish(msg_move);
 }
 

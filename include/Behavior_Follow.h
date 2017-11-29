@@ -4,6 +4,7 @@
 #include "ros/ros.h"
 #include "final_project/behavior.h"
 #include "sensor_msgs/LaserScan.h"
+#include "final_project/trigger.h"
 
 #define BH_FOLLOW_RATE 70.00f
 
@@ -48,6 +49,7 @@ private:
 	//Handle, Publisher, Subscriber
 	ros::NodeHandle nh;
 	ros::Publisher pub_arbiter;
+	ros::Publisher pub_peek;
 	ros::Subscriber hokuyo_laser;
 	
 	//Average distances
@@ -72,6 +74,7 @@ private:
 	double tl_sum;
 	double tl_last_error;
 	double tl_error;
+
 };
 
 #endif
