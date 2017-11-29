@@ -15,10 +15,12 @@
   
         <node ns="$(arg base_name)$(arg id)" name="irobotArbiter" pkg="final_project" type="fp_bh_arbiter" respawn="false" output="screen">
         </node>
-        <!--node ns="$(arg base_name)$(arg id)" name="irobotDrive" pkg="final_project" type="fp_bh_drive" respawn="false" output="screen">
-        </node--> 
+        <node ns="$(arg base_name)$(arg id)" name="irobotDrive" pkg="final_project" type="fp_bh_drive" respawn="false" output="screen">
+        </node> 
         <node ns="$(arg base_name)$(arg id)" name="irobotFollow" pkg="final_project" type="fp_bh_follow" respawn="false" output="screen">
         </node> 
+        <node ns="$(arg base_name)$(arg id)" name="irobotTurn" pkg="final_project" type="fp_bh_turn" respawn="false" output="screen" />
+
         <!--node ns="$(arg base_name)$(arg id)" name="irobotPeek" pkg="final_project" type="fp_bh_peek" respawn="false" output="screen" /-->
     </group>
 
@@ -29,6 +31,8 @@
         <node ns="$(arg base_name)$(arg id)" name="irobotArbiter" pkg="final_project" type="fp_bh_arbiter" respawn="false" output="screen">
         </node>
         <node ns="$(arg base_name)$(arg id)" name="irobotDrive" pkg="final_project" type="fp_bh_drive" respawn="false" output="screen"/> 
+        <node ns="$(arg base_name)$(arg id)" name="irobotTurn" pkg="final_project" type="fp_bh_turn" respawn="false" output="screen" />
+
     </group>
 
 </launch>

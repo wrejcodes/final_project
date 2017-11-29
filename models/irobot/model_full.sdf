@@ -146,7 +146,7 @@
         </geometry>
       </visual>
       <sensor name='head_hokuyo_sensor' type='ray'>
-        <visualize>0</visualize>
+        <visualize>1</visualize>
         <update_rate>40</update_rate>
         <ray>
           <scan>

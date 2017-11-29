@@ -8,22 +8,16 @@ Behavior_Follow::Behavior_Follow(){
 	hokuyo_left_avg = 0;
 	
 	//FORWARD PID CONTROL VARIABLES
-	f_pid = 0;
-	f_sum = 0;
-	f_last_error = 0;
-	f_error = 0;
+	f_pid = 0.00f;
+	f_sum = 0.00f;
+	f_last_error = 0.00f;
+	f_error = 0.00f;
 	
-	//TURN RIGHT PID CONTROL VARIABLES
-	tr_pid = 0;
-	tr_sum = 0;
-	tr_last_error = 0;
-	tr_error = 0;
-
-	//TURN LEFT PID CONTROL VARIABLES
-	tl_pid = 0;
-	tl_sum = 0;
-	tl_last_error = 0;
-	tl_error = 0;
+	//TURN PID CONTROL VARIABLES
+	t_pid = 0.00f;
+	t_sum = 0.00f;
+	t_last_error = 0.00f;
+	t_error = 0.00f;
 
 	// publisher
 	pub_arbiter = nh.advertise<final_project::behavior>("behavior/follow", 1);
@@ -65,10 +59,10 @@ void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& ms
 	//averages
 	hokuyo_right_avg = hokuyo_right_sum / offset;
 	hokuyo_center_avg = hokuyo_center_sum / offset;
-	// ROS_INFO("Center avg: %.3f Center sum: %.3f", hokuyo_center_avg, hokuyo_center_sum);
-
-	//ROS_INFO(hokuyo_center_avg);
 	hokuyo_left_avg = hokuyo_left_sum / offset;
+	//ROS_INFO("left avg: %.3f left sum: %.3f", hokuyo_left_avg, hokuyo_left_sum);
+	//ROS_INFO("right avg: %.3f right sum: %.3f", hokuyo_right_avg, hokuyo_right_sum);
+
 
 	//forward pid
 	f_error = DESIRED_FOLLOW_DISTANCE - hokuyo_center_avg;
@@ -77,30 +71,23 @@ void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& ms
 	f_last_error = f_error;
 	ROS_INFO("f_error: %.3f, f_pid: %.3f", f_error, f_pid);
 
+	//turn pid
+	t_error = hokuyo_right_avg - hokuyo_left_avg;
+	t_sum += t_error; 
+	t_pid = (T_P_GAIN * t_error) + (T_I_GAIN * ((1/BH_FOLLOW_RATE)*t_sum)) + (T_D_GAIN * ((t_error - t_last_error)/(1/BH_FOLLOW_RATE)));
+	t_last_error = t_error;
+	//ROS_INFO("t_error: %.3f, t_pid: %.3f", t_error, t_pid);
 
-	//turn right pid
-	tr_error = DESIRED_FOLLOW_DISTANCE - hokuyo_right_avg;
-	tr_sum += tr_error; 
-	tr_pid = (TR_P_GAIN * tr_error) + (TR_I_GAIN * ((1/BH_FOLLOW_RATE)*tr_sum)) + (TR_D_GAIN * ((tr_error - tr_last_error)/(1/BH_FOLLOW_RATE)));
-	tr_last_error = tr_error;
-
-	//turn left pid
-	tl_error = DESIRED_FOLLOW_DISTANCE - hokuyo_left_avg;
-	tl_sum += tl_error; 
-	tl_pid = (TL_P_GAIN * tl_error) + (TL_I_GAIN * ((1/BH_FOLLOW_RATE)*tl_sum)) + (TL_D_GAIN * ((tl_error - tl_last_error)/(1/BH_FOLLOW_RATE)));
-	tl_last_error = tl_error;
+	
 
 	//if no longer following reset all values.
 	if(hokuyo_center_avg < DESIRED_FOLLOW_DISTANCE){
 		f_error = 0;
 		f_last_error = 0;
 		f_sum = 0;
-		tr_error = 0;
-		tr_last_error = 0;
-		tr_sum = 0;
-		tl_error = 0;
-		tl_last_error = 0;
-		tl_sum = 0;
+		t_error = 0;
+		t_last_error = 0;
+		t_sum = 0;
 	}
 }
 
@@ -110,26 +97,12 @@ void Behavior_Follow::process_behavior(){
 	msg_move.vel_turn = 0;
 	msg_move.active = false;
 	
-	//Trigger to begin follow forward
+	//Trigger to begin behavior
 	if(TRIGGER_FOLLOW_DISTANCE > hokuyo_center_avg){
+		//Go Forward
 		msg_move.vel_fw = f_pid < 0 ? FWD_VEL : FWD_VEL * f_pid;
 		msg_move.vel_turn = 0;
-		// ROS_INFO("I'm Here");
 		msg_move.active = true;
-
-		//Trigger to turn left
-		// if(hokuyo_right_avg > hokuyo_left_avg){
-		// 	msg_move.vel_fw = f_pid;
-		// 	msg_move.vel_turn = tl_pid;
-		// 	msg_move.active = true;
-		// }
-
-		// //Trigger to turn right
-		// if(hokuyo_left_avg > hokuyo_right_avg){
-		// 	msg_move.vel_fw = f_pid;
-		// 	msg_move.vel_turn = -tr_pid;
-		// 	msg_move.active = true;
-		// }
 	}
 
 	// TODO: when this is working use this message to tell the robot to peek

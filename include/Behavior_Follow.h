@@ -6,7 +6,7 @@
 #include "sensor_msgs/LaserScan.h"
 #include "final_project/trigger.h"
 
-#define BH_FOLLOW_RATE 70.00f
+#define BH_FOLLOW_RATE 10.00f
 
 class Behavior_Follow{
 public:
@@ -15,27 +15,26 @@ public:
 	//static constexpr double DELTA_THRESHOLD = .15f;
 	
 	//Follow Math Constants
-	static constexpr double DESIRED_FOLLOW_DISTANCE = 1.50f;
-	static constexpr double FWD_VEL = 0.25f;		
-	static constexpr double TRN_VEL = 0.25f;
+	static constexpr double DESIRED_FOLLOW_DISTANCE = 1.0f;
+	static constexpr double FWD_VEL = 0.27f;		
+	static constexpr double TRN_VEL = 0.05f;
 	static constexpr double TRN_THRESHOLD = 0.15f;
 
 	//The boundaries for a front pointing ray.
-	static constexpr int FOLLOW_RANGE_SIZE = 15; 
+	static constexpr int FOLLOW_RANGE_SIZE = 12; 
 
-	static constexpr double gain_switch = 0.01;
+	static constexpr double F_GAIN_SWITCH = 0.05;
+	static constexpr double T_GAIN_SWITCH = 0.03;
+
 
 	//PID Constants
-	static constexpr double F_P_GAIN = gain_switch;
-	static constexpr double F_I_GAIN = gain_switch;
-	static constexpr double F_D_GAIN = gain_switch;
-	static constexpr double TR_P_GAIN = gain_switch;
-	static constexpr double TR_I_GAIN = gain_switch;
-	static constexpr double TR_D_GAIN = gain_switch;
-	static constexpr double TL_P_GAIN = gain_switch;
-	static constexpr double TL_I_GAIN = gain_switch;
-	static constexpr double TL_D_GAIN = gain_switch;
-
+	static constexpr double F_P_GAIN = F_GAIN_SWITCH;
+	static constexpr double F_I_GAIN = F_GAIN_SWITCH;
+	static constexpr double F_D_GAIN = F_GAIN_SWITCH;
+	static constexpr double T_P_GAIN = T_GAIN_SWITCH;
+	static constexpr double T_I_GAIN = T_GAIN_SWITCH;
+	static constexpr double T_D_GAIN = T_GAIN_SWITCH;
+	
 	//Don't start detecting until
 	static constexpr double TRIGGER_FOLLOW_DISTANCE = 3.00f;
 
@@ -64,16 +63,11 @@ private:
 	double f_error;
 	
 	//TURN RIGHT PID CONTROL VARIABLES
-	double tr_pid;
-	double tr_sum;
-	double tr_last_error;
-	double tr_error;
+	double t_pid;
+	double t_sum;
+	double t_last_error;
+	double t_error;
 	
-	//TURN LEFT PID CONTROL VARIABLES
-	double tl_pid;
-	double tl_sum;
-	double tl_last_error;
-	double tl_error;
 
 };
 
