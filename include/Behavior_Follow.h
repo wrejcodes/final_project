@@ -15,7 +15,7 @@ public:
 	//static constexpr double DELTA_THRESHOLD = .15f;
 	
 	//Follow Math Constants
-	static constexpr double DESIRED_FOLLOW_DISTANCE = 1.00f;
+	static constexpr double DESIRED_FOLLOW_DISTANCE = 1.50f;
 	static constexpr double FWD_VEL = 0.25f;		
 	static constexpr double TRN_VEL = 0.25f;
 	static constexpr double TRN_THRESHOLD = 0.15f;
@@ -23,7 +23,7 @@ public:
 	//The boundaries for a front pointing ray.
 	static constexpr int FOLLOW_RANGE_SIZE = 15; 
 
-	static constexpr double gain_switch = 0.08;
+	static constexpr double gain_switch = 0.02;
 
 	//PID Constants
 	static constexpr double F_P_GAIN = gain_switch;
@@ -37,7 +37,7 @@ public:
 	static constexpr double TL_D_GAIN = gain_switch;
 
 	//Don't start detecting until
-	static constexpr double TRIGGER_FOLLOW_DISTANCE = 4.00f;
+	static constexpr double TRIGGER_FOLLOW_DISTANCE = 3.00f;
 
 	Behavior_Follow();
 
