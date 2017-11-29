@@ -71,7 +71,7 @@ void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& ms
 	hokuyo_left_avg = hokuyo_left_sum / offset;
 
 	//forward pid
-	f_error = hokuyo_center_avg - DESIRED_FOLLOW_DISTANCE;
+	f_error = DESIRED_FOLLOW_DISTANCE - hokuyo_center_avg;
 	f_sum += f_error; 
 	f_pid = (F_P_GAIN * f_error) + (F_I_GAIN * ((1/BH_FOLLOW_RATE)*f_sum)) + (F_D_GAIN * ((f_error - f_last_error)/(1/BH_FOLLOW_RATE)));
 	f_last_error = f_error;
@@ -112,7 +112,7 @@ void Behavior_Follow::process_behavior(){
 	
 	//Trigger to begin follow forward
 	if(TRIGGER_FOLLOW_DISTANCE > hokuyo_center_avg){
-		msg_move.vel_fw = FWD_VEL - f_pid;
+		msg_move.vel_fw = f_pid < 0 ? FWD_VEL : FWD_VEL * f_pid;
 		msg_move.vel_turn = 0;
 		// ROS_INFO("I'm Here");
 		msg_move.active = true;
