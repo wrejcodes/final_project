@@ -34,6 +34,34 @@
         </geometry>
       </visual>
 
+      <!-->Beer Can<-->
+      <collision name='beer_can_collision'>
+        <pose>0 0 0.2 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.166495</radius>
+            <length>0.230000</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='beer_can_visual'>
+        <pose>0 0 0.2 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.166495</radius>
+            <length>0.230000</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://beer/materials/scripts</uri>
+            <uri>model://beer/materials/textures</uri>
+            <name>Beer/Diffuse</name>
+          </script>
+        </material>
+      </visual>
+
+
       <collision name="front_wheel_collision">
         <pose>0.130000 0 0.017000 0 1.570700 1.570700</pose>
         <geometry>
@@ -92,7 +120,7 @@
 
       <!-->hokuyo collision<-->
       <collision name='base_link_collision_hokuyo_laser_link'>
-        <pose>0 0 0.06 0 -0 0</pose>
+        <pose>0 0 0.17 0 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04</length>
@@ -109,7 +137,7 @@
         </surface>
       </collision>
       <visual name='base_link_visual_hokuyo_laser_link'>
-        <pose>0 0 0.06 0 -0 0</pose>
+        <pose>0 0 0.17 0 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04</length>
@@ -145,7 +173,7 @@
           <topicName>hokuyo_scan</topicName>
           <frameName>hokuyo_laser_link</frameName>
         </plugin>
-        <pose>0 0 0.06 0 -0 0</pose>
+        <pose>0 0 0.17 0 -0 0</pose>
       </sensor>
 
       <sensor name='left_front_sensor' type='ray'>

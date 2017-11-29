@@ -3,7 +3,8 @@
 Arbiter::Arbiter() {
     //Set subscriptions & advertisement
     this->sub_bh_drive = this->nh.subscribe("behavior/drive", 3, &Arbiter::cb_bh_drive, this);
-   
+    this->sub_bh_follow = this->nh.subscribe("behavior/follow", 3, &Arbiter::cb_bh_follow, this);
+
     this->pub_vel = this->nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 }
 
@@ -30,6 +31,12 @@ void Arbiter::cb_bh_drive(const final_project::behavior::ConstPtr &msg) {
     ROS_DEBUG("Arbiter: Drive(%s) Fw: %.1f Turn: %.1f", msg->active ? "on" : "off", msg->vel_fw, msg->vel_turn);
 }
 
+void Arbiter::cb_bh_follow(const final_project::behavior::ConstPtr &msg) {
+    if (msg->active) {
+        this->behavior_queue.push(std::pair<int, final_project::behavior>(PRIORITY_FOLLOW, *msg));
+    }
+    ROS_DEBUG("Arbiter: Follow(%s) Fw: %.1f Turn: %.1f", msg->active ? "on" : "off", msg->vel_fw, msg->vel_turn);
+}
 
 
 void Arbiter::move_robot(final_project::behavior& msg) {

@@ -18,4 +18,6 @@
   </node>
   <node ns="$(arg base_name)$(arg id)" name="irobotDrive" pkg="final_project" type="fp_bh_drive" respawn="false" output="screen">
   </node> 
+  <node ns="$(arg base_name)$(arg id)" name="irobotFollow" pkg="final_project" type="fp_bh_follow" respawn="false" output="screen">
+  </node> 
 </launch>
