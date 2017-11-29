@@ -6,12 +6,21 @@
 #include "final_project/trigger.h"
 #include "sensor_msgs/LaserScan.h"
 
-#define BH_PEEK_RATE 70
+#define BH_PEEK_RATE 10
+#define COUNT_MAX 100
 
 
 class Behavior_Peek{
 public:
 	
+	int count;
+	static constexpr double VEL_MERGE = .43f;
+	static constexpr double VEL_FW = .25f;
+	static constexpr double MERGE_LEFT = COUNT_MAX;
+	static constexpr double STABILIZE_MERGE_LEFT = MERGE_LEFT - 20;
+	static constexpr double DRIVE = STABILIZE_MERGE_LEFT - 20;
+	static constexpr double MERGE_RIGHT = DRIVE -20;
+	static constexpr double STABILIZE_MERGE_RIGHT = MERGE_RIGHT - 20;
 
 	Behavior_Peek();
 
@@ -27,8 +36,8 @@ private:
 
 	ros::Subscriber follower;
 
-	int count;
-	bool peeking;	
+	
+	bool peek;	
  
 };
 
