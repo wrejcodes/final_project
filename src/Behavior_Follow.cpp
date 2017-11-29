@@ -29,7 +29,7 @@ Behavior_Follow::Behavior_Follow(){
 	pub_arbiter = nh.advertise<final_project::behavior>("behavior/follow", 1);
 	
 	// subscribe
-	hokuyo_laser = nh.subscribe("hokuyo_scan", 1, &Behavior_Follow::hokuyo_callback, this);
+	hokuyo_laser = nh.subscribe("/iRobot/hokuyo_scan", 1, &Behavior_Follow::hokuyo_callback, this);
 }
 
 //hokuyo_callback
