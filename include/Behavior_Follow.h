@@ -23,7 +23,7 @@ public:
 	//The boundaries for a front pointing ray.
 	static constexpr int FOLLOW_RANGE_SIZE = 15; 
 
-	static constexpr double gain_switch = 0.05;
+	static constexpr double gain_switch = 0.08;
 
 	//PID Constants
 	static constexpr double F_P_GAIN = gain_switch;

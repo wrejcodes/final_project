@@ -42,7 +42,7 @@ void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& ms
 	double hokuyo_left_sum = 0;
 	double hokuyo_center_sum = 0;
 	double hokuyo_right_sum = 0;
-	ROS_INFO("start: %d, end: %d, offset %d", start, end, offset);
+	//ROS_INFO("start: %d, end: %d, offset %d", start, end, offset);
 	for(int i = start; i < end; ++i){
 		//right side
 		if(i >= start && i < start + offset){
@@ -71,7 +71,7 @@ void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& ms
 	hokuyo_left_avg = hokuyo_left_sum / offset;
 
 	//forward pid
-	f_error = DESIRED_FOLLOW_DISTANCE - hokuyo_center_avg;
+	f_error = hokuyo_center_avg - DESIRED_FOLLOW_DISTANCE;
 	f_sum += f_error; 
 	f_pid = (F_P_GAIN * f_error) + (F_I_GAIN * ((1/BH_FOLLOW_RATE)*f_sum)) + (F_D_GAIN * ((f_error - f_last_error)/(1/BH_FOLLOW_RATE)));
 	f_last_error = f_error;
