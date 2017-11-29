@@ -22,9 +22,12 @@ public:
 	static constexpr double MERGE_RIGHT = DRIVE -20;
 	static constexpr double STABILIZE_MERGE_RIGHT = MERGE_RIGHT - 20;
 
+	static constexpr double PEEK_THRESHOLD = 5.0f;
+
 	Behavior_Peek();
 
 	void cb_follow_trigger(const final_project::trigger::ConstPtr& msg);
+	void lidar_cb(const sensor_msgs::LaserScan::ConstPtr &msg);
 	void process_behavior();
 	
 private:
@@ -36,8 +39,10 @@ private:
 
 	ros::Subscriber follower;
 
+	ros::Subscriber lidar;
+
+	double avg;
 	
-	bool peek;	
  
 };
 

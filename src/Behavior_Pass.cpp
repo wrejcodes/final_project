@@ -4,11 +4,11 @@ Behavior_Pass::Behavior_Pass(){
 	// set up initial stuff
 
 	// publisher
-	pub_arbiter = nh.advertise<final_project::behavior>("behavior/turn", 1);
+	pub_arbiter = nh.advertise<final_project::behavior>("behavior/pass", 1);
 	
 	// subscribe
-	peeker = nh.subscribe<final_project::trigger>("trigger/peek",1, &Behavior_Pass::trigger_cb, this);
-	right_side_scan = nh.subscribe<sensor_msgs::LaserScan>("right_side_scan", 1, &Behavior_Pass::right_side_laser_cb, this);
+	//peeker = nh.subscribe<final_project::trigger>("trigger/peek",1, &Behavior_Pass::trigger_cb, this);
+	//right_side_scan = nh.subscribe<sensor_msgs::LaserScan>("right_side_scan", 1, &Behavior_Pass::right_side_laser_cb, this);
 	
 }
 
@@ -19,7 +19,9 @@ void Behavior_Pass::right_side_laser_cb(const sensor_msgs::LaserScan::ConstPtr& 
 }
 
 void Behavior_Pass::trigger_cb(const final_project::trigger::ConstPtr &msg){
+	
 	if(msg->active && count == 0){
+		ROS_INFO("We're here");
 		count = COUNT_MAX;
 	}
 
@@ -35,6 +37,8 @@ void Behavior_Pass::process_behavior(){
 	msg_move.vel_fw = 0;
 	msg_move.vel_turn = 0;
 	msg_move.active = false;
+
+	ROS_INFO("i'm here");	
 
 	if(count > 0){
 		msg_move.active = true;
