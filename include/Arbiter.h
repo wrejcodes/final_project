@@ -10,6 +10,7 @@
 #include "geometry_msgs/Twist.h"
 
 #define PRIORITY_DRIVE 0
+#define PRIORITY_DRIVE_FASTER 0
 #define PRIORITY_TURN 1
 #define PRIORITY_FOLLOW 2
 #define PRIORITY_PEEK 3
@@ -41,6 +42,7 @@ class Arbiter {
 
     //Subscribers to behaviors, one callback for every behavior that is added
     ros::Subscriber sub_bh_drive;
+    ros::Subscriber sub_bh_drive_faster;
     ros::Subscriber sub_bh_follow;
     ros::Subscriber sub_bh_peek;
     ros::Subscriber sub_bh_turn;
@@ -51,6 +53,7 @@ class Arbiter {
 
     //Behavior Callbacks
     void cb_bh_drive(const final_project::behavior::ConstPtr& msg);
+    void cb_bh_drive_faster(const final_project::behavior::ConstPtr& msg);
     void cb_bh_follow(const final_project::behavior::ConstPtr& msg);
     void cb_bh_peek(const final_project::behavior::ConstPtr& msg);
     void cb_bh_turn(const final_project::behavior::ConstPtr& msg);
