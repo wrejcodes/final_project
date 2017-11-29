@@ -13,7 +13,7 @@ public:
 	
 	static constexpr double VEL_TURN = .5f;
 	static constexpr double VEL_FW = .25f;
-	static constexpr double THRESHOLD = .4f;
+	static constexpr double THRESHOLD = .7f;
 
 	Behavior_Turn();
 
