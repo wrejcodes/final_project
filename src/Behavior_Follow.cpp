@@ -34,33 +34,40 @@ Behavior_Follow::Behavior_Follow(){
 
 //hokuyo_callback
 void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& msg){
-	int start = 180 + FOLLOW_RANGE_SIZE/2;
-	int end = 180 - FOLLOW_RANGE_SIZE/2;
+	int start = 180 - FOLLOW_RANGE_SIZE/2;
+	int end = 180 + FOLLOW_RANGE_SIZE/2;
 	int offset = FOLLOW_RANGE_SIZE/3;
 
 	double hokuyo_left_sum = 0;
 	double hokuyo_center_sum = 0;
 	double hokuyo_right_sum = 0;
-		
+	ROS_INFO("start: %d, end: %d, offset %d", start, end, offset);
 	for(int i = start; i < end; ++i){
 		//right side
 		if(i >= start && i < start + offset){
+			//ROS_INFO("I'm here this time");
 			hokuyo_right_sum += msg->ranges[i];
 		}
 		//center side
 		else if(i >= start + offset && i < end - offset){
+			//ROS_INFO("and now I'm doing center stuff yayyy");
+		
 			hokuyo_center_sum += msg->ranges[i];
 		}
 		//left side
 		else{
+			//ROS_INFO("this is super cool");
 			hokuyo_left_sum += msg->ranges[i];
 		}
 	}
 	
 	//averages
-	hokuyo_right_avg = hokuyo_right_sum / FOLLOW_RANGE_SIZE;
-	hokuyo_center_avg = hokuyo_center_sum / FOLLOW_RANGE_SIZE;
-	hokuyo_left_avg = hokuyo_left_sum / FOLLOW_RANGE_SIZE;
+	hokuyo_right_avg = hokuyo_right_sum / offset;
+	hokuyo_center_avg = hokuyo_center_sum / offset;
+	// ROS_INFO("Center avg: %.3f Center sum: %.3f", hokuyo_center_avg, hokuyo_center_sum);
+
+	//ROS_INFO(hokuyo_center_avg);
+	hokuyo_left_avg = hokuyo_left_sum / offset;
 
 	//forward pid
 	f_error = DESIRED_FOLLOW_DISTANCE - hokuyo_center_avg;
@@ -81,7 +88,7 @@ void Behavior_Follow::hokuyo_callback(const sensor_msgs::LaserScan::ConstPtr& ms
 	tl_last_error = tl_error;
 
 	//if no longer following reset all values.
-	if(hokuyo_center_avg > DESIRED_FOLLOW_DISTANCE){
+	if(hokuyo_center_avg < DESIRED_FOLLOW_DISTANCE){
 		f_error = 0;
 		f_last_error = 0;
 		f_sum = 0;
@@ -104,21 +111,22 @@ void Behavior_Follow::process_behavior(){
 	if(TRIGGER_FOLLOW_DISTANCE > hokuyo_center_avg){
 		msg_move.vel_fw = f_pid;
 		msg_move.vel_turn = 0;
+		// ROS_INFO("I'm Here");
 		msg_move.active = true;
 
 		//Trigger to turn left
-		if(hokuyo_right_avg > hokuyo_left_avg){
-			msg_move.vel_fw = f_pid;
-			msg_move.vel_turn = tl_pid;
-			msg_move.active = true;
-		}
+		// if(hokuyo_right_avg > hokuyo_left_avg){
+		// 	msg_move.vel_fw = f_pid;
+		// 	msg_move.vel_turn = tl_pid;
+		// 	msg_move.active = true;
+		// }
 
-		//Trigger to turn right
-		if(hokuyo_left_avg > hokuyo_right_avg){
-			msg_move.vel_fw = f_pid;
-			msg_move.vel_turn = -tr_pid;
-			msg_move.active = true;
-		}
+		// //Trigger to turn right
+		// if(hokuyo_left_avg > hokuyo_right_avg){
+		// 	msg_move.vel_fw = f_pid;
+		// 	msg_move.vel_turn = -tr_pid;
+		// 	msg_move.active = true;
+		// }
 	}	
 
 	pub_arbiter.publish(msg_move);

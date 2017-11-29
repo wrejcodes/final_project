@@ -22,16 +22,18 @@ public:
 	//The boundaries for a front pointing ray.
 	static constexpr int FOLLOW_RANGE_SIZE = 15; 
 
+	static constexpr double gain_switch = 0.05;
+
 	//PID Constants
-	double F_P_GAIN = 1;
-	double F_I_GAIN = 1;
-	double F_D_GAIN = 1;
-	double TR_P_GAIN = 1;
-	double TR_I_GAIN = 1;
-	double TR_D_GAIN = 1;
-	double TL_P_GAIN = 1;
-	double TL_I_GAIN = 1;
-	double TL_D_GAIN = 1;
+	static constexpr double F_P_GAIN = gain_switch;
+	static constexpr double F_I_GAIN = gain_switch;
+	static constexpr double F_D_GAIN = gain_switch;
+	static constexpr double TR_P_GAIN = gain_switch;
+	static constexpr double TR_I_GAIN = gain_switch;
+	static constexpr double TR_D_GAIN = gain_switch;
+	static constexpr double TL_P_GAIN = gain_switch;
+	static constexpr double TL_I_GAIN = gain_switch;
+	static constexpr double TL_D_GAIN = gain_switch;
 
 	//Don't start detecting until
 	static constexpr double TRIGGER_FOLLOW_DISTANCE = 4.00f;
