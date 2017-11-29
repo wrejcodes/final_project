@@ -5,6 +5,7 @@ Arbiter::Arbiter() {
     this->sub_bh_drive = this->nh.subscribe("behavior/drive", 3, &Arbiter::cb_bh_drive, this);
     this->sub_bh_follow = this->nh.subscribe("behavior/follow", 3, &Arbiter::cb_bh_follow, this);
     this->sub_bh_peek = this->nh.subscribe("behavior/peek", 3, &Arbiter::cb_bh_peek, this);
+    this->sub_bh_turn = this->nh.subscribe("behavior/turn", 3, &Arbiter::cb_bh_turn, this);
     this->pub_vel = this->nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 }
 
@@ -43,6 +44,13 @@ void Arbiter::cb_bh_peek(const final_project::behavior::ConstPtr& msg){
         this->behavior_queue.push(std::pair<int, final_project::behavior>(PRIORITY_PEEK, *msg));
     }
     ROS_DEBUG("Arbiter: Peek(%s) Fw: %.1f Turn: %.1f", msg->active ? "on" : "off", msg->vel_fw, msg->vel_turn);
+}
+
+void Arbiter::cb_bh_turn(const final_project::behavior::ConstPtr& msg){
+    if(msg->active){
+        this->behavior_queue.push(std::pair<int, final_project::behavior>(PRIORITY_TURN, *msg));
+    }
+    ROS_DEBUG("Arbiter: Turn(%s) Fw: %.1f Turn: %.1f", msg->active ? "on" : "off", msg->vel_fw, msg->vel_turn);
 }
 
 

@@ -10,7 +10,8 @@
 #include "geometry_msgs/Twist.h"
 
 #define PRIORITY_DRIVE 0
-#define PRIORITY_FOLLOW 1
+#define PRIORITY_TURN 1
+#define PRIORITY_FOLLOW 2
 #define PRIORITY_PEEK 3
 
 
@@ -41,6 +42,7 @@ class Arbiter {
     ros::Subscriber sub_bh_drive;
     ros::Subscriber sub_bh_follow;
     ros::Subscriber sub_bh_peek;
+    ros::Subscriber sub_bh_turn;
     
     //Publisher to cmd_vel to move the robot
     ros::Publisher pub_vel;
@@ -49,6 +51,7 @@ class Arbiter {
     void cb_bh_drive(const final_project::behavior::ConstPtr& msg);
     void cb_bh_follow(const final_project::behavior::ConstPtr& msg);
     void cb_bh_peek(const final_project::behavior::ConstPtr& msg);
+    void cb_bh_turn(const final_project::behavior::ConstPtr& msg);
 
     //Robot movement
     void move_robot(final_project::behavior& msg);
