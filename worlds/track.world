@@ -126,9 +126,9 @@
       <pose>0.525961 -1 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>221 836000000</sim_time>
-      <real_time>222 457278482</real_time>
-      <wall_time>1511905038 396463297</wall_time>
+      <sim_time>272 825000000</sim_time>
+      <real_time>51 126354159</real_time>
+      <wall_time>1511972248 371463585</wall_time>
       <model name='Track2'>
         <pose>-4.33217 -2.98631 -1.21715 0 -0 0</pose>
         <link name='link'>
@@ -150,7 +150,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-10.722 -0.806098 1.83835 0 0.475642 0.048197</pose>
+        <pose>4.49098 7.13801 4.22207 0 0.553796 -1.56381</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
